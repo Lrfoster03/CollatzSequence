@@ -10,6 +10,9 @@ def computeSequence(input):
         return computeSequence(3 * input + 1)
     
 input = input("Enter a number: ")
-
-computeSequence(int(input))
-print(sequence)
+input = int(input)
+if(input > 0):
+    computeSequence(input)
+    print(sequence)
+else:
+    print("Invalid input")
