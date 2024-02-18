@@ -56,7 +56,7 @@ while True:
             print(sequence)
             plotSequence()
         else:
-            print("Invalid input")
+            print("Invalid input. Please enter a positive integer.")
     else:
         # print("Invalid input")
 
