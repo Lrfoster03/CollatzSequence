@@ -38,7 +38,7 @@ def plotSequence():
 
 # These edges will always exist in a collatz sequence (As 1-> 4 -> 2 -> 1 is a cycle)
 G.add_edges_from([("1", "4"), ("4", "2"), ("2", "1")])
-val_map = {"1": 1.0,
+val_map = {"1": 0.9,
         "2": 0.6,
         "4": 0.8}
 
