@@ -22,6 +22,8 @@ def plotSequence():
 
     values = [val_map.get(node, 0.75) for node in G.nodes()]
     # Specify the edges you want here
+    # TODO: Highlight converged points
+    # TODO: Highlight starting points
     red_edges = [("4", "2"), ("2", "1"), ("1", "4")]
     edge_colours = ['black' if not edge in red_edges else 'red'
                     for edge in G.edges()]
