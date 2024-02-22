@@ -23,7 +23,7 @@ Upon entering a number, you will see in the terminal a display of the sequence u
 
 At any time you can exit the application by typing ```exit()```
 
-Here's an example of how a directed graph would look using the inputs 234 and 35. 
+Here's an example of how a directed graph would look using the inputs 234, 35, and 36. 
 
 ![Example Collatz Sequence](media/Example.png)
 
