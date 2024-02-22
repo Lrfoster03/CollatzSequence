@@ -6,10 +6,13 @@ The Collatz conjecture is one of the most famous unsolved problems in mathematic
 
 ![Example Collatz Sequence](media/CollatzPeacewise.png)
 
-Where n is any natural number (Integer greater than 0).
+<!-- I found the png above here: [https://sites.dartmouth.edu/mathsociety/2019/11/13/new-breakthrough-in-the-82-year-old-riddle-known-as-the-collatz-conjecture/]. It is not my own and I have no claim to it. Check out this document for more information on the Collatz conjecture.  -->
+
+Where n is any positive integer. 
 
 This calculator also accepts multiple inputs and shows how the different sequences converge to 1. 
 
+#Implementation#
 Its built using Python 3.11, NetworkX, and MatPlotLib. For starters, ensure that you have the latest install of Python 
 
 Then in a terminal run ```pip install networkx``` and ```pip install matplotlib```
