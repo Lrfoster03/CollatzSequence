@@ -3,6 +3,9 @@ import matplotlib.pyplot as plt
 
 sequence = []
 G = nx.DiGraph()
+color_map = []
+red_edges = [(4, 2), (2, 1), (1, 4)]
+inputs = []
 
 def computeSequence(input):
     # Clear the sequence before computing a new one
@@ -15,16 +18,27 @@ def computeSequence(input):
         return computeSequence(3 * input + 1)
     
 def plotSequence():
-    for i in range(len(sequence) - 1):
-        G.add_edge(str(sequence[i]), str(sequence[i+1]))
+    node = 0
+    # Highlight converged points
+    for x in sequence:
+        if (G.has_node(x)):
+            if x in inputs:
+                val_map[x] = 0.7
+            else:
+                val_map[x] = 0.8
+            break
 
-    # Add error handling in the event that the user enters a number that is less than 4 (aka 2 or 1)
+    for i in range(len(sequence) - 1): 
+        G.add_edge((sequence[i]), (sequence[i+1]))   
 
-    values = [val_map.get(node, 0.75) for node in G.nodes()]
+    # Highlight starting points
+    val_map[response] = 0.5
+
+    values = [val_map.get(node, 0.72) for node in G.nodes()]
+    
     # Specify the edges you want here
-    # TODO: Highlight converged points
-    # TODO: Highlight starting points
-    red_edges = [("4", "2"), ("2", "1"), ("1", "4")]
+
+    values[0] = 0.9
     edge_colours = ['black' if not edge in red_edges else 'red'
                     for edge in G.edges()]
     black_edges = [edge for edge in G.edges()]
@@ -36,13 +50,14 @@ def plotSequence():
     nx.draw_networkx_labels(G, pos)
     nx.draw_networkx_edges(G, pos, edgelist=red_edges, edge_color='r', arrows=True)
     nx.draw_networkx_edges(G, pos, edgelist=black_edges, arrows=False)
+    print(values)
     plt.show()
 
 # These edges will always exist in a collatz sequence (As 1-> 4 -> 2 -> 1 is a cycle)
-G.add_edges_from([("1", "4"), ("4", "2"), ("2", "1")])
-val_map = {"1": 0.9,
-        "2": 0.6,
-        "4": 0.8}
+G.add_edges_from([(1, 4), (4, 2), (2, 1)])
+val_map = {1: 0.9,
+        2: 0.6,
+        4: 0.8}
 
 
 response = input("Enter a number, or type exit() to quit: ")
@@ -52,6 +67,7 @@ while True:
     elif(type(response) is str and response.isdigit()):
         response = int(response)
         if(response > 0):
+            inputs.append(response)
             sequence = []
             computeSequence(response)
             print("Completed in " + str(len(sequence)) + " iterations.")
