@@ -1,7 +1,9 @@
 import networkx as nx
 import matplotlib.pyplot as plt
 from networkx.drawing.nx_agraph import graphviz_layout
-import pygraphviz
+import random
+from graphical_pos import graphical_pos
+
 
 sequence = []
 G = nx.DiGraph()
@@ -51,88 +53,24 @@ def plotSequence():
     # Need to create a layout when doing
     # separate calls to draw nodes and edges
     # pos = nx.spring_layout(G, k=0.15, iterations=20)
-    
     # pos = nx.shell_layout(G, scale=5)
-    pos = graphviz_layout(G, prog="neato")
-    # pos = hierarchy_pos(G, 1)
+    pos = graphical_pos(G)
     # pos = nx.spiral_layout(G, scale = 10, equidistant = True)
+    # pos = graphviz_layout(G, prog="neato")
+
+    print(pos)
+
     nx.draw_networkx_nodes(G, pos, cmap=plt.get_cmap('jet'), 
                         node_color = values, node_size = 500)
     nx.draw_networkx_labels(G, pos)
     nx.draw_networkx_edges(G, pos, edgelist=red_edges, edge_color='r', arrows=True)
     nx.draw_networkx_edges(G, pos, edgelist=black_edges, arrows=False)
     nx.draw_networkx_edge_labels(
-    G, pos,
-    edge_labels={('A', 'B'): 'AB', 
-                 ('B', 'C'): 'BC', 
-                 ('B', 'D'): 'BD'},
-    font_color='red'
-    )
+    G, pos, edge_labels={(1, 4): '1 -> 4', (4, 2): '4 -> 2', (2, 1): '2 -> 1'},
+    font_color='red')
     # print(values)
     plt.show()
-
-def hierarchy_pos(G, root=None, width=1., vert_gap = 0.2, vert_loc = 0, xcenter = 0.5):
-
-    '''
-    From Joel's answer at https://stackoverflow.com/a/29597209/2966723.  
-    Licensed under Creative Commons Attribution-Share Alike 
-    
-    If the graph is a tree this will return the positions to plot this in a 
-    hierarchical layout.
-    
-    G: the graph (must be a tree)
-    
-    root: the root node of current branch 
-    - if the tree is directed and this is not given, 
-      the root will be found and used
-    - if the tree is directed and this is given, then 
-      the positions will be just for the descendants of this node.
-    - if the tree is undirected and not given, 
-      then a random choice will be used.
-    
-    width: horizontal space allocated for this branch - avoids overlap with other branches
-    
-    vert_gap: gap between levels of hierarchy
-    
-    vert_loc: vertical location of root
-    
-    xcenter: horizontal location of root
-    '''
-    if not nx.is_tree(G):
-        raise TypeError('cannot use hierarchy_pos on a graph that is not a tree')
-
-    if root is None:
-        if isinstance(G, nx.DiGraph):
-            root = next(iter(nx.topological_sort(G)))  #allows back compatibility with nx version 1.11
-        else:
-            root = random.choice(list(G.nodes))
-
-    def _hierarchy_pos(G, root, width=1., vert_gap = 0.2, vert_loc = 0, xcenter = 0.5, pos = None, parent = None):
-        '''
-        see hierarchy_pos docstring for most arguments
-
-        pos: a dict saying where all nodes go if they have been assigned
-        parent: parent of this branch. - only affects it if non-directed
-
-        '''
-    
-        if pos is None:
-            pos = {root:(xcenter,vert_loc)}
-        else:
-            pos[root] = (xcenter, vert_loc)
-        children = list(G.neighbors(root))
-        if not isinstance(G, nx.DiGraph) and parent is not None:
-            children.remove(parent)  
-        if len(children)!=0:
-            dx = width/len(children) 
-            nextx = xcenter - width/2 - dx/2
-            for child in children:
-                nextx += dx
-                pos = _hierarchy_pos(G,child, width = dx, vert_gap = vert_gap, 
-                                    vert_loc = vert_loc-vert_gap, xcenter=nextx,
-                                    pos=pos, parent = root)
-        return pos
-    return _hierarchy_pos(G, root, width, vert_gap, vert_loc, xcenter)
+    return
 
 
 val_map = {1: 0.9,
@@ -159,5 +97,3 @@ while True:
         # print("Invalid input")
 
         response = input("Enter another number, or type exit to quit: ")
-
-
