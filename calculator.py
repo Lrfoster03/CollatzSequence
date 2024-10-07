@@ -1,7 +1,6 @@
 import networkx as nx
 import matplotlib.pyplot as plt
 from networkx.drawing.nx_agraph import graphviz_layout
-import random
 from graphical_pos import graphical_pos
 
 
@@ -28,7 +27,7 @@ def plotSequence():
         if (G.has_node(x)):
             # If the node is an input, highlight it as a different color
             if x in inputs:
-                val_map[x] = 0.7
+                val_map[x] = 0.65
             else:
                 val_map[x] = 0.8
             break
@@ -37,10 +36,10 @@ def plotSequence():
         G.add_edge((sequence[i]), (sequence[i+1]))   
 
     # These edges will always exist in a collatz sequence (As 1-> 4 -> 2 -> 1 is a cycle)
-    # G.add_edges_from([(1, 4), (4, 2), (2, 1)])
+    G.add_edges_from([(1, 4), (4, 2), (2, 1)])
 
     # Highlight starting points
-    val_map[response] = 0.5
+    val_map[response] = 0.6
 
     values = [val_map.get(node, 0.72) for node in G.nodes()]
     
@@ -52,30 +51,30 @@ def plotSequence():
     black_edges = [edge for edge in G.edges()]
     # Need to create a layout when doing
     # separate calls to draw nodes and edges
+
     # pos = nx.spring_layout(G, k=0.15, iterations=20)
     # pos = nx.shell_layout(G, scale=5)
-    pos = graphical_pos(G)
     # pos = nx.spiral_layout(G, scale = 10, equidistant = True)
     # pos = graphviz_layout(G, prog="neato")
+    pos = graphviz_layout(G, root = response)
 
     print(pos)
 
     nx.draw_networkx_nodes(G, pos, cmap=plt.get_cmap('jet'), 
                         node_color = values, node_size = 500)
     nx.draw_networkx_labels(G, pos)
-    nx.draw_networkx_edges(G, pos, edgelist=red_edges, edge_color='r', arrows=True)
+    nx.draw_networkx_edges(G, pos, edgelist=red_edges, edge_color='b', arrows=True)
     nx.draw_networkx_edges(G, pos, edgelist=black_edges, arrows=False)
     nx.draw_networkx_edge_labels(
     G, pos, edge_labels={(1, 4): '1 -> 4', (4, 2): '4 -> 2', (2, 1): '2 -> 1'},
-    font_color='red')
-    # print(values)
+    font_color='black')
     plt.show()
     return
 
 
 val_map = {1: 0.9,
-        2: 0.6,
-        4: 0.8}
+        2: 0.49,
+        4: 0.55}
 
 
 response = input("Enter a number, or type exit to quit: ")
@@ -94,6 +93,4 @@ while True:
         else:
             print("Invalid input. Please enter a positive integer.")
     else:
-        # print("Invalid input")
-
         response = input("Enter another number, or type exit to quit: ")
