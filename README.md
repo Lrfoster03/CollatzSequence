@@ -17,7 +17,7 @@ Its built using Python 3.10.13, NetworkX, Pygraphviz (and by extension, graphviz
 
 Then install graphviz. On a Mac, you can do this by running ```brew install graphviz```. On Windows, you can download the installer from [here](https://graphviz.gitlab.io/_pages/Download/Download_windows.html).
 
-Then in a terminal run ```pip install networkx```, ```pip install matplotlib```, and ```pip install pygraphviz```. Installing pygraphviz can be a bit tricky, so if you run into any issues, check out the [documentation](https://pygraphviz.github.io/documentation/stable/install.html).
+Then in a terminal run ```pip install -r requirements.txt``` to install all the dependencies necessary for this project. Installing pygraphviz can be a bit tricky, so if you run into any issues, check out the [documentation](https://pygraphviz.github.io/documentation/stable/install.html).
 
 When running the application, you should be given a prompt to enter a number. This only works for integers greater than 0. There is error handling built into the application, but it is most likely still possible to crash.
 
